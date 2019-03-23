@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace Clippic
@@ -22,11 +23,13 @@ namespace Clippic
             ShowInTaskbar = false;
             BackColor = Color.Red; // Does not work for all colours. Thank you Microsoft.
             TransparencyKey = BackColor;
+            DoubleBuffered = true;
 
             MouseDown += StartSelection;
             MouseUp += StopSelection;
             Load += WindowLoaded;
             MouseMove += MouseMoved;
+            Paint += Painting;
         }
 
         /// <summary>
@@ -48,6 +51,7 @@ namespace Clippic
         private void MouseMoved(object sender, MouseEventArgs e)
         {
             Cursor.Current = Cursors.Cross;
+            Invalidate(); // Force redraw of form.
         }
 
         /// <summary>
@@ -59,7 +63,7 @@ namespace Clippic
         {
             if (e.Button == MouseButtons.Left)
             {
-                selectionStart = e.Location;
+                selectionStart = GetGlobalLocation(e.Location);
                 selectionStarted = true;
                 MouseMoved(sender, e);
             }
@@ -78,12 +82,11 @@ namespace Clippic
         {
             if (selectionStarted && e.Button == MouseButtons.Left)
             {
-                Point globalSelectionStart = GetGlobalLocation(selectionStart);
-                Point globalSelectionEnd = GetGlobalLocation(e.Location);
-                int xMin = Math.Min(globalSelectionStart.X, globalSelectionEnd.X);
-                int xMax = Math.Max(globalSelectionStart.X, globalSelectionEnd.X);
-                int yMin = Math.Min(globalSelectionStart.Y, globalSelectionEnd.Y);
-                int yMax = Math.Max(globalSelectionStart.Y, globalSelectionEnd.Y);
+                Point selectionEnd = GetGlobalLocation(e.Location);
+                int xMin = Math.Min(selectionStart.X, selectionEnd.X);
+                int xMax = Math.Max(selectionStart.X, selectionEnd.X);
+                int yMin = Math.Min(selectionStart.Y, selectionEnd.Y);
+                int yMax = Math.Max(selectionStart.Y, selectionEnd.Y);
 
                 if (xMax - xMin > 0 && yMax - yMin > 0)
                 {
@@ -98,6 +101,20 @@ namespace Clippic
             }
 
             Close();
+        }
+
+        private void Painting(object sender, PaintEventArgs e)
+        {
+            if (selectionStarted)
+            {
+                Point relativeStart = PointToClient(selectionStart);
+                Point currentLocation = PointToClient(Cursor.Position);
+                int xMin = Math.Min(relativeStart.X, currentLocation.X);
+                int xMax = Math.Max(relativeStart.X, currentLocation.X);
+                int yMin = Math.Min(relativeStart.Y, currentLocation.Y);
+                int yMax = Math.Max(relativeStart.Y, currentLocation.Y);
+                e.Graphics.DrawRectangle(Pens.LightGray, xMin, yMin, xMax - xMin, yMax - yMin);
+            }
         }
 
         /// <summary>
