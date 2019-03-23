@@ -62,7 +62,7 @@ namespace Clippic
         /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void StopSelection(object sender, MouseEventArgs e)
         {
-            if (selectionStart != null)
+            if (selectionStart != null && e.Button == MouseButtons.Left)
             {
                 Point selectionEnd = GetGlobalLocation(e.Location);
                 int xMin = Math.Min(selectionStart.X, selectionEnd.X);
