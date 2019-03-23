@@ -29,6 +29,8 @@ namespace Clippic
             Load += WindowLoaded;
             MouseMove += MouseMoved;
             Paint += Painting;
+            LostFocus += TriggerClose;
+            KeyDown += TriggerClose;
         }
 
         /// <summary>
@@ -41,6 +43,14 @@ namespace Clippic
             Size = SystemInformation.VirtualScreen.Size;
             Location = SystemInformation.VirtualScreen.Location;
         }
+
+        /// <summary>
+        /// Event fired when the window should be closed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void TriggerClose(object sender, EventArgs e)
+            => Close();
 
         /// <summary>
         /// Event fired when the mouse moves.
