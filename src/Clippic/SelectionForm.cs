@@ -40,6 +40,11 @@ namespace Clippic
             Location = SystemInformation.VirtualScreen.Location;
         }
 
+        /// <summary>
+        /// Event fired when the mouse moves.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void MouseMoved(object sender, MouseEventArgs e)
         {
             Cursor.Current = Cursors.Cross;
