@@ -70,13 +70,16 @@ namespace Clippic
                 int yMin = Math.Min(selectionStart.Y, selectionEnd.Y);
                 int yMax = Math.Max(selectionStart.Y, selectionEnd.Y);
 
-                Bitmap bmp = new Bitmap(xMax - xMin, yMax - yMin);
-                using (Graphics g = Graphics.FromImage(bmp))
+                if (xMax - xMin > 0 && yMax - yMin > 0)
                 {
-                    g.CopyFromScreen(xMin, yMin, 0, 0, bmp.Size, CopyPixelOperation.SourceCopy);
-                }
+                    Bitmap bmp = new Bitmap(xMax - xMin, yMax - yMin);
+                    using (Graphics g = Graphics.FromImage(bmp))
+                    {
+                        g.CopyFromScreen(xMin, yMin, 0, 0, bmp.Size, CopyPixelOperation.SourceCopy);
+                    }
 
-                Clipboard.SetImage(bmp);
+                    Clipboard.SetImage(bmp);
+                }
             }
 
             Close();
