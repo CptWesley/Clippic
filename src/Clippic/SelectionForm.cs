@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.Media;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Clippic
@@ -12,12 +14,16 @@ namespace Clippic
     {
         private Point selectionStart;
         private bool selectionStarted;
+        private bool playSound;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SelectionForm"/> class.
         /// </summary>
-        public SelectionForm()
+        /// <param name="playSound">Determines whether or not to make a sound when a screenshot is taken.</param>
+        public SelectionForm(bool playSound)
         {
+            this.playSound = playSound;
+
             FormBorderStyle = FormBorderStyle.None;
             ShowInTaskbar = false;
             BackColor = Color.Red; // Does not work for all colours. Thank you Microsoft.
@@ -106,6 +112,10 @@ namespace Clippic
                     }
 
                     Clipboard.SetImage(bmp);
+                    if (playSound)
+                    {
+                        new SoundPlayer(Assembly.GetExecutingAssembly().GetManifestResourceStream("Clippic.click.wav")).PlaySync();
+                    }
                 }
             }
 

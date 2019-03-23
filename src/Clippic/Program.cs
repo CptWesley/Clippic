@@ -11,12 +11,22 @@ namespace Clippic
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        /// <param name="args">Program arguments.</param>
         [STAThread]
-        public static void Main()
+        public static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SelectionForm());
+            bool sound = true;
+            foreach (string arg in args)
+            {
+                if (arg == "-nosound")
+                {
+                    sound = false;
+                }
+            }
+
+            Application.Run(new SelectionForm(sound));
         }
     }
 }

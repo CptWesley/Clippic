@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <EmbeddedResource Include="click.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
