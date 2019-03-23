@@ -59,7 +59,7 @@ namespace Clippic
         {
             if (e.Button == MouseButtons.Left)
             {
-                selectionStart = GetGlobalLocation(e.Location);
+                selectionStart = e.Location;
                 selectionStarted = true;
                 MouseMoved(sender, e);
             }
@@ -78,11 +78,12 @@ namespace Clippic
         {
             if (selectionStarted && e.Button == MouseButtons.Left)
             {
-                Point selectionEnd = GetGlobalLocation(e.Location);
-                int xMin = Math.Min(selectionStart.X, selectionEnd.X);
-                int xMax = Math.Max(selectionStart.X, selectionEnd.X);
-                int yMin = Math.Min(selectionStart.Y, selectionEnd.Y);
-                int yMax = Math.Max(selectionStart.Y, selectionEnd.Y);
+                Point globalSelectionStart = GetGlobalLocation(selectionStart);
+                Point globalSelectionEnd = GetGlobalLocation(e.Location);
+                int xMin = Math.Min(globalSelectionStart.X, globalSelectionEnd.X);
+                int xMax = Math.Max(globalSelectionStart.X, globalSelectionEnd.X);
+                int yMin = Math.Min(globalSelectionStart.Y, globalSelectionEnd.Y);
+                int yMax = Math.Max(globalSelectionStart.Y, globalSelectionEnd.Y);
 
                 if (xMax - xMin > 0 && yMax - yMin > 0)
                 {
