@@ -113,7 +113,11 @@ namespace Clippic
                 int xMax = Math.Max(relativeStart.X, currentLocation.X);
                 int yMin = Math.Min(relativeStart.Y, currentLocation.Y);
                 int yMax = Math.Max(relativeStart.Y, currentLocation.Y);
-                e.Graphics.DrawRectangle(Pens.LightGray, xMin, yMin, xMax - xMin, yMax - yMin);
+                int width = xMax - xMin;
+                int height = yMax - yMin;
+                e.Graphics.DrawRectangle(Pens.LightGray, xMin, yMin, width, height);
+                e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+                e.Graphics.DrawString($"{width}, {height}", new Font("Arial", 7), Brushes.LightGray, currentLocation);
             }
         }
 
