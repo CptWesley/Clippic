@@ -45,7 +45,14 @@ namespace Clippic
         /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void StartSelection(object sender, MouseEventArgs e)
         {
-            selectionStart = GetGlobalLocation(e.Location);
+            if (e.Button == MouseButtons.Left)
+            {
+                selectionStart = GetGlobalLocation(e.Location);
+            }
+            else
+            {
+                Close();
+            }
         }
 
         /// <summary>
