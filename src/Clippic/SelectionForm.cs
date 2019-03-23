@@ -103,6 +103,11 @@ namespace Clippic
             Close();
         }
 
+        /// <summary>
+        /// Event fired when the form is redrawn by windows.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void Painting(object sender, PaintEventArgs e)
         {
             if (selectionStarted)
