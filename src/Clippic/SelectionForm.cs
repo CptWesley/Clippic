@@ -11,6 +11,7 @@ namespace Clippic
     public class SelectionForm : Form
     {
         private Point selectionStart;
+        private bool selectionStarted;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SelectionForm"/> class.
@@ -48,6 +49,7 @@ namespace Clippic
             if (e.Button == MouseButtons.Left)
             {
                 selectionStart = GetGlobalLocation(e.Location);
+                selectionStarted = true;
             }
             else
             {
@@ -62,7 +64,7 @@ namespace Clippic
         /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void StopSelection(object sender, MouseEventArgs e)
         {
-            if (selectionStart != null && e.Button == MouseButtons.Left)
+            if (selectionStarted && e.Button == MouseButtons.Left)
             {
                 Point selectionEnd = GetGlobalLocation(e.Location);
                 int xMin = Math.Min(selectionStart.X, selectionEnd.X);
