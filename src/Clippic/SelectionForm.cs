@@ -26,6 +26,7 @@ namespace Clippic
             MouseDown += StartSelection;
             MouseUp += StopSelection;
             Load += WindowLoaded;
+            MouseMove += MouseMoved;
         }
 
         /// <summary>
@@ -39,6 +40,11 @@ namespace Clippic
             Location = SystemInformation.VirtualScreen.Location;
         }
 
+        private void MouseMoved(object sender, MouseEventArgs e)
+        {
+            Cursor.Current = Cursors.Cross;
+        }
+
         /// <summary>
         /// Event fired when the selection starts.
         /// </summary>
@@ -50,6 +56,7 @@ namespace Clippic
             {
                 selectionStart = GetGlobalLocation(e.Location);
                 selectionStarted = true;
+                MouseMoved(sender, e);
             }
             else
             {
