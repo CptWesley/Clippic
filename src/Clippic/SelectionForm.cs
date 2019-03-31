@@ -108,6 +108,11 @@ namespace Clippic
                     Bitmap bmp = new Bitmap(xMax - xMin, yMax - yMin);
                     using (Graphics g = Graphics.FromImage(bmp))
                     {
+                        using (Graphics screen = this.CreateGraphics())
+                        {
+                            screen.Clear(BackColor);
+                        }
+
                         g.CopyFromScreen(xMin, yMin, 0, 0, bmp.Size, CopyPixelOperation.SourceCopy);
                     }
 
